@@ -128,6 +128,9 @@ The intent-level module specifying desired Areas, Adjacencies, Constraints, and 
 ### **Render (OAS-Render)**
 Guidelines describing how to convert OAS-Layout data into SVG, Canvas, WebGL, and other visual formats.
 
+### **Roof**
+A container element describing the overall shape and slope configuration of a roof. Defined by a boundary polygon, per-edge slope angles, and overhang dimensions. Analogous to IFC `IfcRoof`. Defined in OAS-Core and OAS-Layout.
+
 ### **Room**
 A functional space defined by a boundary polygon. Core entity across OAS.
 

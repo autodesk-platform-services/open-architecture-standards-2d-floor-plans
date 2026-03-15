@@ -45,6 +45,7 @@ Example top-level structure:
   "rooms": [...],
   "walls": [...],
   "openings": [...],
+  "roofs": [...],
   "connections": [...],
   "metadata": { ... }
 }
@@ -56,6 +57,7 @@ Sections include:
 - **rooms** — geometric room boundaries
 - **walls** — wall segments with thickness and optional height
 - **openings** — door/window placement
+- **roofs** — roof elements with slope and overhang
 - **connections** — circulation graph
 - **metadata** — optional solver/LLM details
 
@@ -292,7 +294,57 @@ Openings are anchored to walls and positioned along the wall length.
 
 ---
 
-## 7. Circulation (Connections)
+## 7. Roofs
+
+A roof is defined by a boundary polygon, a level reference, and per-edge slope information. Roofs are container elements (analogous to IFC `IfcRoof`) that describe the overall roof shape and slope configuration.
+
+### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | yes | Unique identifier |
+| `boundary_polygon` | Polygon | yes | Closed polygon defining the roof footprint |
+| `level` | string | yes | Reference to a Level ID |
+| `level_offset_mm` | integer | no | Vertical offset from the level in mm |
+| `slope_angles` | number[] | no | Slope angle in degrees for each polygon edge (same count as polygon points) |
+| `defines_slope` | boolean[] | no | Whether each edge defines a slope (`true`) or is a gable end (`false`) |
+| `eave_overhang_mm` | number[] | no | Eave overhang in mm for each polygon edge |
+| `type_name` | string | no | Type classification (e.g., "Gable Roof", "Hip Roof") |
+
+### Example
+
+```json
+{
+  "id": "roof_01",
+  "boundary_polygon": {
+    "unit": "mm",
+    "closed": true,
+    "points": [
+      { "x": 0, "y": 0 },
+      { "x": 10000, "y": 0 },
+      { "x": 10000, "y": 8000 },
+      { "x": 0, "y": 8000 }
+    ]
+  },
+  "level": "level_01",
+  "level_offset_mm": 0,
+  "slope_angles": [30.0, 0.0, 30.0, 0.0],
+  "defines_slope": [true, false, true, false],
+  "eave_overhang_mm": [300, 0, 300, 0]
+}
+```
+
+### Rules
+
+- `boundary_polygon` must be a valid closed polygon with integer mm coordinates
+- `slope_angles`, `defines_slope`, and `eave_overhang_mm` arrays must have the same length as the polygon's `points` array
+- Edges where `defines_slope` is `false` are gable ends (vertical)
+- `slope_angles` values are in degrees (decimal allowed)
+- `level_offset_mm` defaults to 0 if omitted
+
+---
+
+## 8. Circulation (Connections)
 
 This defines graph-like connections between rooms.
 
@@ -320,7 +372,7 @@ Circulation graphs are useful for:
 
 ---
 
-## 8. Metadata
+## 9. Metadata
 
 Optional metadata for provenance:
 
@@ -334,7 +386,7 @@ Optional metadata for provenance:
 
 ---
 
-## 9. Relationship to OAS-Program
+## 10. Relationship to OAS-Program
 
 ### OAS-Program → OAS-Layout
 
@@ -358,7 +410,7 @@ This enables prompt-based design refinement.
 
 ---
 
-## 10. Relationship to OAS-Render
+## 11. Relationship to OAS-Render
 
 OAS-Render uses OAS-Layout geometry (mm integers) to produce:
 
@@ -371,7 +423,7 @@ Layout is the authoritative geometric dataset.
 
 ---
 
-## 11. Summary
+## 12. Summary
 
 OAS-Layout encodes all *finalized* and *explicit* geometry for architectural designs, including:
 
@@ -379,6 +431,7 @@ OAS-Layout encodes all *finalized* and *explicit* geometry for architectural des
 - Room boundaries
 - Wall geometry + thickness + optional height/profile
 - Door and window placement
+- Roof geometry with slope and overhang
 - Circulation relationships
 - Provenance metadata
 
