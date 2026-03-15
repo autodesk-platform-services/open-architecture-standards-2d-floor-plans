@@ -17,6 +17,7 @@ OAS-Core specifies the following primary components:
 - **Roofs** (roof elements with boundary polygon, slope, and overhang)
 - **Floor Slabs** (physical floor elements with boundary polygon)
 - **Furniture** (furnishing elements with position, rotation, and dimensions)
+- **Railings** (path-based railing elements along floors, stairs, and ramps)
 - **Annotations** (human or LLM-generated notes and comments)
 
 These entities form the essential structure of an architectural plan, ensuring that both humans and automated tools (LLMs, layout solvers, renderers, and editors) interpret plans in a consistent and predictable manner.
