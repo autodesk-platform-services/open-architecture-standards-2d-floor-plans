@@ -46,6 +46,7 @@ Example top-level structure:
   "walls": [...],
   "openings": [...],
   "roofs": [...],
+  "floor_slabs": [...],
   "connections": [...],
   "metadata": { ... }
 }
@@ -58,6 +59,7 @@ Sections include:
 - **walls** — wall segments with thickness and optional height
 - **openings** — door/window placement
 - **roofs** — roof elements with slope and overhang
+- **floor_slabs** — physical floor elements
 - **connections** — circulation graph
 - **metadata** — optional solver/LLM details
 
@@ -344,7 +346,49 @@ A roof is defined by a boundary polygon, a level reference, and per-edge slope i
 
 ---
 
-## 8. Circulation (Connections)
+## 8. Floor Slabs
+
+A floor slab is a physical floor element (analogous to IFC `IfcSlab(FLOOR)`) with its own boundary polygon and vertical offset. Unlike Levels (which are abstract reference planes), Floor Slabs represent the actual physical floor construction.
+
+### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | yes | Unique identifier |
+| `boundary_polygon` | Polygon | yes | Closed polygon defining the slab outline |
+| `level` | string | yes | Reference to a Level ID |
+| `height_above_level_mm` | integer | no | Height above the associated level in mm (default: 0) |
+| `type_name` | string | no | Type classification (e.g., "Reinforced Concrete Slab") |
+
+### Example
+
+```json
+{
+  "id": "slab_01",
+  "boundary_polygon": {
+    "unit": "mm",
+    "closed": true,
+    "points": [
+      { "x": 0, "y": 0 },
+      { "x": 10000, "y": 0 },
+      { "x": 10000, "y": 8000 },
+      { "x": 0, "y": 8000 }
+    ]
+  },
+  "level": "level_00",
+  "height_above_level_mm": 0
+}
+```
+
+### Rules
+
+- `boundary_polygon` must be a valid closed polygon with integer mm coordinates
+- `height_above_level_mm` defaults to 0 if omitted
+- A single level may have multiple floor slabs (e.g., split-level designs)
+
+---
+
+## 9. Circulation (Connections)
 
 This defines graph-like connections between rooms.
 
@@ -372,7 +416,7 @@ Circulation graphs are useful for:
 
 ---
 
-## 9. Metadata
+## 10. Metadata
 
 Optional metadata for provenance:
 
@@ -386,7 +430,7 @@ Optional metadata for provenance:
 
 ---
 
-## 10. Relationship to OAS-Program
+## 11. Relationship to OAS-Program
 
 ### OAS-Program → OAS-Layout
 
@@ -410,7 +454,7 @@ This enables prompt-based design refinement.
 
 ---
 
-## 11. Relationship to OAS-Render
+## 12. Relationship to OAS-Render
 
 OAS-Render uses OAS-Layout geometry (mm integers) to produce:
 
@@ -423,7 +467,7 @@ Layout is the authoritative geometric dataset.
 
 ---
 
-## 12. Summary
+## 13. Summary
 
 OAS-Layout encodes all *finalized* and *explicit* geometry for architectural designs, including:
 
@@ -432,6 +476,7 @@ OAS-Layout encodes all *finalized* and *explicit* geometry for architectural des
 - Wall geometry + thickness + optional height/profile
 - Door and window placement
 - Roof geometry with slope and overhang
+- Floor slab geometry
 - Circulation relationships
 - Provenance metadata
 
