@@ -45,6 +45,7 @@ Example top-level structure:
   "rooms": [...],
   "walls": [...],
   "openings": [...],
+  "curtain_walls": [...],
   "roofs": [...],
   "floor_slabs": [...],
   "connections": [...],
@@ -58,6 +59,7 @@ Sections include:
 - **rooms** — geometric room boundaries
 - **walls** — wall segments with thickness and optional height
 - **openings** — door/window placement
+- **curtain_walls** — glazed wall systems with grid and panels
 - **roofs** — roof elements with slope and overhang
 - **floor_slabs** — physical floor elements
 - **connections** — circulation graph
@@ -239,7 +241,8 @@ Openings are anchored to walls and positioned along the wall length.
 |-------|------|----------|-------------|
 | `id` | string | yes | Unique identifier |
 | `opening_type` | string | yes | `"door"` or `"window"` |
-| `in_wall` | string | yes | Reference to a Wall ID |
+| `in_wall` | string | conditional | Reference to a Wall ID (required unless `in_curtain_wall` is set) |
+| `in_curtain_wall` | string | conditional | Reference to a Curtain Wall ID (required unless `in_wall` is set) |
 | `position_along_wall_mm` | integer | yes | Distance from wall `from` point to opening start |
 | `width_mm` | integer | yes | Width of the opening |
 | `height_mm` | integer | yes | Height of the opening |
@@ -296,7 +299,95 @@ Openings are anchored to walls and positioned along the wall length.
 
 ---
 
-## 7. Roofs
+## 7. Curtain Walls
+
+A curtain wall is a glazed wall system with a grid of mullions and panels. In IFC, `IfcCurtainWall` is a **sibling** of `IfcWall` (both inherit from `IfcBuiltElement`), not a subtype. OAS follows this pattern by defining curtain walls as a separate entity in their own `curtain_walls` array.
+
+### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | yes | Unique identifier |
+| `from` | Point | yes | Start endpoint |
+| `to` | Point | yes | End endpoint |
+| `thickness_mm` | integer | no | Wall thickness in mm |
+| `wall_height_mm` | integer | no | Wall height in mm |
+| `level` | string | no | Reference to a Level ID |
+| `curtain_grid` | object | no | Grid layout (see below) |
+| `panels` | array | no | Panels that differ from the default glazing |
+| `type_name` | string | no | Type classification |
+
+### Curtain Grid
+
+```json
+{
+  "vertical_lines_mm": [1200, 2400, 3600, 4800],
+  "horizontal_lines_mm": [900, 1800, 2700]
+}
+```
+
+Grid lines are expressed as offsets in mm from the wall start (`from` point) for vertical lines, and from the wall base for horizontal lines.
+
+### Panels
+
+Panels describe individual infill elements within the grid (analogous to IFC `IfcPlate` aggregated in `IfcCurtainWall`). Only panels that differ from the default glazing need to be listed.
+
+```json
+{
+  "grid_u": 2,
+  "grid_v": 0,
+  "type_name": "Spandrel Panel"
+}
+```
+
+- `grid_u` (integer): Column index in the curtain grid (0-based)
+- `grid_v` (integer): Row index in the curtain grid (0-based)
+- `type_name` (string, optional): Panel type classification
+
+### Example
+
+```json
+{
+  "id": "cw_01",
+  "from": { "x": 0, "y": 0 },
+  "to": { "x": 6000, "y": 0 },
+  "thickness_mm": 150,
+  "wall_height_mm": 3500,
+  "level": "level_01",
+  "curtain_grid": {
+    "vertical_lines_mm": [1200, 2400, 3600, 4800],
+    "horizontal_lines_mm": [900, 1800, 2700]
+  },
+  "panels": [
+    { "grid_u": 2, "grid_v": 0, "type_name": "Spandrel Panel" }
+  ]
+}
+```
+
+### Openings in Curtain Walls
+
+Real doors or windows in curtain walls use the standard Opening entity with `in_curtain_wall` instead of `in_wall`:
+
+```json
+{
+  "id": "door_cw_01",
+  "opening_type": "door",
+  "in_curtain_wall": "cw_01",
+  "position_along_wall_mm": 2400,
+  "width_mm": 900,
+  "height_mm": 2100
+}
+```
+
+### Rules
+
+- Curtain walls use the same geometry conventions as walls (`from`/`to`, mm integers)
+- Panels are **not** openings (IFC: `IfcPlate` ≠ `IfcOpeningElement`)
+- An opening must reference either `in_wall` or `in_curtain_wall`, not both
+
+---
+
+## 8. Roofs
 
 A roof is defined by a boundary polygon, a level reference, and per-edge slope information. Roofs are container elements (analogous to IFC `IfcRoof`) that describe the overall roof shape and slope configuration.
 
@@ -346,7 +437,7 @@ A roof is defined by a boundary polygon, a level reference, and per-edge slope i
 
 ---
 
-## 8. Floor Slabs
+## 9. Floor Slabs
 
 A floor slab is a physical floor element (analogous to IFC `IfcSlab(FLOOR)`) with its own boundary polygon and vertical offset. Unlike Levels (which are abstract reference planes), Floor Slabs represent the actual physical floor construction.
 
@@ -388,7 +479,7 @@ A floor slab is a physical floor element (analogous to IFC `IfcSlab(FLOOR)`) wit
 
 ---
 
-## 9. Circulation (Connections)
+## 10. Circulation (Connections)
 
 This defines graph-like connections between rooms.
 
@@ -416,7 +507,7 @@ Circulation graphs are useful for:
 
 ---
 
-## 10. Metadata
+## 11. Metadata
 
 Optional metadata for provenance:
 
@@ -430,7 +521,7 @@ Optional metadata for provenance:
 
 ---
 
-## 11. Relationship to OAS-Program
+## 12. Relationship to OAS-Program
 
 ### OAS-Program → OAS-Layout
 
@@ -454,7 +545,7 @@ This enables prompt-based design refinement.
 
 ---
 
-## 12. Relationship to OAS-Render
+## 13. Relationship to OAS-Render
 
 OAS-Render uses OAS-Layout geometry (mm integers) to produce:
 
@@ -467,7 +558,7 @@ Layout is the authoritative geometric dataset.
 
 ---
 
-## 13. Summary
+## 14. Summary
 
 OAS-Layout encodes all *finalized* and *explicit* geometry for architectural designs, including:
 
@@ -475,6 +566,7 @@ OAS-Layout encodes all *finalized* and *explicit* geometry for architectural des
 - Room boundaries
 - Wall geometry + thickness + optional height/profile
 - Door and window placement
+- Curtain wall systems with grid and panels
 - Roof geometry with slope and overhang
 - Floor slab geometry
 - Circulation relationships

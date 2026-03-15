@@ -13,6 +13,7 @@ OAS-Core specifies the following primary components:
 - **Rooms** (functional spaces defined by polygons)
 - **Walls** (straight boundary segments between points, with optional height and profile)
 - **Openings** (doors and windows located along walls)
+- **Curtain Walls** (glazed wall systems with grid and panels, sibling of Walls per IFC)
 - **Roofs** (roof elements with boundary polygon, slope, and overhang)
 - **Floor Slabs** (physical floor elements with boundary polygon)
 - **Annotations** (human or LLM-generated notes and comments)
