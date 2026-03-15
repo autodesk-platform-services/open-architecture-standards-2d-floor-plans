@@ -110,6 +110,9 @@ A design philosophy emphasizing simple JSON structures, predictable keys, and mi
 
 ## M
 
+### **Machinery**
+Industrial equipment or production machinery placed in rooms. IFC does not define a dedicated entity for machinery (it is out of scope), so OAS fills this gap via the oas-machinery extension. Defined in OAS-Extensions.
+
 ### **Metadata**
 Supplementary information attached to a document or entity, such as authoring tools, timestamps, or notes.
 

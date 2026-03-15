@@ -208,6 +208,77 @@ Example:
 
 ---
 
+### 5.6 OAS-Machinery
+
+Defines industrial equipment and production machinery. IFC does not have a dedicated entity for machinery (it is explicitly out of scope), so OAS fills this gap for manufacturing and industrial use cases.
+
+**Extension declaration:**
+
+```json
+{
+  "extensions": {
+    "oas-machinery": { "version": "1.0.0" }
+  }
+}
+```
+
+**Top-level array:** `machinery`
+
+#### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | yes | Unique identifier |
+| `name` | string | yes | Machine name |
+| `category` | string | yes | One of: `cnc`, `robot`, `conveyor`, `assembly`, `inspection`, `storage`, `other` |
+| `position` | Point | yes | Placement point (x, y in mm) |
+| `rotation_deg` | number | no | Rotation angle in degrees (counterclockwise) |
+| `rotation_x_deg` | number | no | Rotation around X axis in degrees |
+| `rotation_y_deg` | number | no | Rotation around Y axis in degrees |
+| `dimensions` | object | yes | Bounding box: `width_mm`, `depth_mm`, `height_mm` |
+| `in_room` | string | no | Reference to a Room ID |
+| `level` | string | no | Reference to a Level ID |
+| `geometry_ref` | string | no | URI or path to external 3D geometry |
+| `manufacturer` | string | no | Manufacturer name |
+| `model_number` | string | no | Model/part number |
+| `description` | string | no | Free-text description |
+| `type_name` | string | no | Type classification |
+
+#### Example
+
+```json
+{
+  "id": "cnc_01",
+  "name": "CNC Mill XR-500",
+  "category": "cnc",
+  "position": { "x": 5000, "y": 3000 },
+  "rotation_deg": 0,
+  "dimensions": {
+    "width_mm": 2500,
+    "depth_mm": 1800,
+    "height_mm": 2200
+  },
+  "in_room": "room_production_01",
+  "level": "level_00",
+  "manufacturer": "DMG Mori",
+  "model_number": "XR-500"
+}
+```
+
+#### Categories
+
+| Category | Description |
+|----------|-------------|
+| `cnc` | CNC machines (milling, turning, grinding) |
+| `robot` | Industrial robots and cobots |
+| `conveyor` | Material handling and conveyors |
+| `assembly` | Assembly stations and workbenches |
+| `inspection` | Quality inspection equipment |
+| `storage` | Storage systems and racks |
+| `other` | Other production equipment |
+
+---
+
 ## 6. Custom Extensions
 
 Projects may define custom extensions:
