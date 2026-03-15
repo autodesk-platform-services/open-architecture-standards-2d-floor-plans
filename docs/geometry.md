@@ -98,10 +98,14 @@ A point is defined as:
 
 ### Point Rules
 
-- Both `x` and `y` must be present  
-- Both must be integers  
-- Values represent millimeters  
-- Only 2D points allowed in OAS-Geometry  
+- Both `x` and `y` must be present
+- Both must be integers
+- Values represent millimeters
+- An optional `z` (integer, mm) may be present for elements that require 3D paths (e.g., railings following stair geometry). When omitted, the point is treated as 2D.
+
+```json
+{ "x": 2400, "y": 900, "z": 3200 }
+```
 
 ---
 
@@ -147,11 +151,29 @@ Rooms and other closed shapes are defined using polygons.
 
 ### Polygon Rules
 
-- Must have **at least three points**
+- Must have **at least three points** (two for open paths)
 - Must use integer-mm coordinates
-- Must explicitly set `closed: true`
-- Points must follow a consistent order (CW or CCW)
+- Must explicitly set `closed: true` for closed polygons
+- Points must follow a consistent order (CW or CCW) for closed polygons
 - Self-intersecting polygons are not valid
+
+### Open Paths
+
+Some elements (e.g., railings) use **open paths** instead of closed polygons. Open paths use the same polygon structure but with `closed: false`:
+
+```json
+{
+  "unit": "mm",
+  "closed": false,
+  "points": [
+    { "x": 0, "y": 0 },
+    { "x": 3000, "y": 0 },
+    { "x": 3000, "y": 2000 }
+  ]
+}
+```
+
+Open paths require at least two points and do not form a closed shape.
 
 ---
 
