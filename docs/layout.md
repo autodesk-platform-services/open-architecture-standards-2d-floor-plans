@@ -48,6 +48,7 @@ Example top-level structure:
   "curtain_walls": [...],
   "roofs": [...],
   "floor_slabs": [...],
+  "furniture": [...],
   "connections": [...],
   "metadata": { ... }
 }
@@ -62,6 +63,7 @@ Sections include:
 - **curtain_walls** — glazed wall systems with grid and panels
 - **roofs** — roof elements with slope and overhang
 - **floor_slabs** — physical floor elements
+- **furniture** — furnishing elements with dimensions
 - **connections** — circulation graph
 - **metadata** — optional solver/LLM details
 
@@ -479,7 +481,64 @@ A floor slab is a physical floor element (analogous to IFC `IfcSlab(FLOOR)`) wit
 
 ---
 
-## 10. Circulation (Connections)
+## 10. Furniture
+
+Furniture elements represent furnishing items placed inside rooms (analogous to IFC `IfcFurniture`, a subtype of `IfcFurnishingElement`).
+
+### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | yes | Unique identifier |
+| `position` | Point | yes | Placement point (x, y in mm) |
+| `rotation_deg` | number | no | Rotation angle in degrees |
+| `dimensions` | object | no | Bounding box: `width_mm`, `depth_mm`, `height_mm` |
+| `type` | string | no | Category: `"furniture"`, `"casework"`, `"fixture"` |
+| `in_room` | string | no | Reference to a Room ID |
+| `level` | string | no | Reference to a Level ID |
+| `footprint` | Polygon | no | Custom footprint for non-rectangular items |
+| `type_name` | string | no | Type classification (e.g., "Office Desk", "Kitchen Sink") |
+
+### Dimensions
+
+```json
+{
+  "width_mm": 1800,
+  "depth_mm": 800,
+  "height_mm": 750
+}
+```
+
+When `dimensions` is provided, renderers can draw a rectangular footprint without requiring an explicit `footprint` polygon.
+
+### Example
+
+```json
+{
+  "id": "desk_01",
+  "position": { "x": 3000, "y": 2000 },
+  "rotation_deg": 90,
+  "dimensions": {
+    "width_mm": 1800,
+    "depth_mm": 800,
+    "height_mm": 750
+  },
+  "type": "furniture",
+  "in_room": "room_office_01",
+  "level": "level_00"
+}
+```
+
+### Rules
+
+- `position` must use integer mm coordinates
+- `rotation_deg` is counterclockwise, defaults to 0
+- Either `dimensions` or `footprint` should be provided for rendering
+- `type` distinguishes furniture (freestanding), casework (built-in cabinets), and fixtures (plumbing fixtures)
+
+---
+
+## 11. Circulation (Connections)
 
 This defines graph-like connections between rooms.
 
@@ -507,7 +566,7 @@ Circulation graphs are useful for:
 
 ---
 
-## 11. Metadata
+## 12. Metadata
 
 Optional metadata for provenance:
 
@@ -521,7 +580,7 @@ Optional metadata for provenance:
 
 ---
 
-## 12. Relationship to OAS-Program
+## 13. Relationship to OAS-Program
 
 ### OAS-Program → OAS-Layout
 
@@ -545,7 +604,7 @@ This enables prompt-based design refinement.
 
 ---
 
-## 13. Relationship to OAS-Render
+## 14. Relationship to OAS-Render
 
 OAS-Render uses OAS-Layout geometry (mm integers) to produce:
 
@@ -558,7 +617,7 @@ Layout is the authoritative geometric dataset.
 
 ---
 
-## 14. Summary
+## 15. Summary
 
 OAS-Layout encodes all *finalized* and *explicit* geometry for architectural designs, including:
 
@@ -569,6 +628,7 @@ OAS-Layout encodes all *finalized* and *explicit* geometry for architectural des
 - Curtain wall systems with grid and panels
 - Roof geometry with slope and overhang
 - Floor slab geometry
+- Furniture placement and dimensions
 - Circulation relationships
 - Provenance metadata
 
