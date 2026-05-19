@@ -87,6 +87,7 @@ nav:
   - Examples:
     - Simple Plan: examples/simple_plan.md
     - Multi-Room Plan: examples/multi_room_plan.md
+    - Multi-Story Plan: examples/multi_story_plan.md
 
 extra_css:
   - 'assets/overrides.css'
