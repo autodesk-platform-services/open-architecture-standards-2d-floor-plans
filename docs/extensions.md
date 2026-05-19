@@ -133,34 +133,10 @@ Below are recommended baseline extensions that the ecosystem may adopt.
 
 ---
 
-### 5.1 OAS-Furniture
+### ~~5.1 OAS-Furniture~~ (moved to Core)
 
-Defines furniture elements placed inside rooms.
-
-Includes:
-- bounding polygons or footprints  
-- rotation  
-- clearance zones  
-- category (bed, sofa, table)  
-
-Example furniture entity:
-
-```json
-{
-  "type": "bed",
-  "id": "bed_01",
-  "position": { "x": 1200, "y": 2400 },
-  "rotation_deg": 0,
-  "footprint": {
-    "points": [
-      { "x": 0, "y": 0 },
-      { "x": 2000, "y": 0 },
-      { "x": 2000, "y": 1600 },
-      { "x": 0, "y": 1600 }
-    ]
-  }
-}
-```
+!!! note "Moved to OAS-Core"
+    Furniture fields such as `position`, `rotation_deg`, `dimensions`, `type`, `in_room`, `footprint`, and `level` are now part of OAS-Core (on Furniture entities). This extension is no longer needed.
 
 ---
 

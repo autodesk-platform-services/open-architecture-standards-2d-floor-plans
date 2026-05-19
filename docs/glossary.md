@@ -46,6 +46,9 @@ An infill element within a curtain wall grid. Analogous to IFC `IfcPlate` aggreg
 ### **Design Goal**
 A natural-language statement describing the desired outcome of a design (e.g., “compact 2-bedroom apartment with south-facing living room”). Part of OAS-Program.
 
+### **Dimensions**
+A bounding box description with `width_mm`, `depth_mm`, and `height_mm`. Used on Furniture and Machinery elements to define their spatial extent without requiring explicit polygon geometry.
+
 ### **Door**
 An opening element connecting rooms. Represented in OAS-Layout as an opening placed along a wall.
 
@@ -64,7 +67,10 @@ A modular add-on for OAS that introduces domain-specific entities such as furnit
 A physical floor element defined by a boundary polygon and a vertical offset from a Level. Represents the actual floor construction (e.g., concrete slab). Analogous to IFC `IfcSlab(FLOOR)`. Not to be confused with Level, which is an abstract reference plane. Defined in OAS-Core and OAS-Layout.
 
 ### **Footprint**
-A 2D polygon representing the physical outline of an object such as a piece of furniture. Often used in OAS-Furniture.
+A 2D polygon representing the physical outline of an object such as a piece of furniture. Used on Furniture entities for non-rectangular items.
+
+### **Furniture**
+A furnishing element placed inside a room, defined by position, rotation, and dimensions or footprint. Covers freestanding furniture, built-in casework, and plumbing fixtures. Analogous to IFC `IfcFurniture` (subtype of `IfcFurnishingElement`). Defined in OAS-Core and OAS-Layout.
 
 ---
 
