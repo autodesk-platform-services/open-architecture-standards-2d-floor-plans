@@ -33,7 +33,15 @@ python3 -m http.server 8000
 
 ## Editing plans
 
-This viewer is read-only by design. To create or edit OAS JSON, use the OAS skills in [.claude/skills/](../.claude/skills/) with Claude Code — describe what you want in natural language and Claude will produce schema-correct JSON you can drop here.
+This viewer is read-only by design. To create or edit OAS JSON, use the OAS skills under [.claude/skills/](../.claude/skills/) with Claude Code — describe what you want in natural language and Claude will produce schema-correct JSON you can drop into [examples/](examples/).
+
+Most relevant skills for plans you'd load here:
+
+- [`oas-layout`](../.claude/skills/oas-layout/SKILL.md) — multi-room plans with walls, doors, windows, and circulation
+- [`oas-core`](../.claude/skills/oas-core/SKILL.md) — single-room work or the basic entity vocabulary
+- [`oas-geometry`](../.claude/skills/oas-geometry/SKILL.md) — coordinate conventions, polygon rules, unit gotchas
+
+See the [root README](../README.md#skills-for-claude-code) for the full skill index.
 
 ## Files
 
