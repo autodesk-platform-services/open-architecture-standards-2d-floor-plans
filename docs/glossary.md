@@ -143,6 +143,9 @@ The intent-level module specifying desired Areas, Adjacencies, Constraints, and 
 
 ## R
 
+### **Railing**
+A path-based element that follows a polyline along floors, stairs, or ramps. May use open paths with optional Z coordinates for 3D geometry. Analogous to IFC `IfcRailing`. Defined in OAS-Core and OAS-Layout.
+
 ### **Render (OAS-Render)**
 Guidelines describing how to convert OAS-Layout data into SVG, Canvas, WebGL, and other visual formats.
 

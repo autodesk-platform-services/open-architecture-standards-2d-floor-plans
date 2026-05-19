@@ -49,6 +49,7 @@ Example top-level structure:
   "roofs": [...],
   "floor_slabs": [...],
   "furniture": [...],
+  "railings": [...],
   "connections": [...],
   "metadata": { ... }
 }
@@ -64,6 +65,7 @@ Sections include:
 - **roofs** — roof elements with slope and overhang
 - **floor_slabs** — physical floor elements
 - **furniture** — furnishing elements with dimensions
+- **railings** — path-based railing elements
 - **connections** — circulation graph
 - **metadata** — optional solver/LLM details
 
@@ -538,7 +540,51 @@ When `dimensions` is provided, renderers can draw a rectangular footprint withou
 
 ---
 
-## 11. Circulation (Connections)
+## 11. Railings
+
+A railing is a path-based element (analogous to IFC `IfcRailing`) that follows a polyline along floors, stairs, or ramps.
+
+### Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | yes | Unique identifier |
+| `path` | Polygon | yes | Polyline path (open or closed). Points may include optional `z` for 3D paths |
+| `level` | string | no | Reference to a Level ID |
+| `host_type` | string | no | What the railing is attached to: `"floor"`, `"stair"`, `"ramp"` |
+| `base_offset_mm` | integer | no | Vertical offset from the level in mm |
+| `flipped` | boolean | no | Whether the railing is flipped from its default side |
+| `type_name` | string | no | Type classification (e.g., "Glass Balustrade", "Metal Handrail") |
+
+### Example
+
+```json
+{
+  "id": "railing_01",
+  "path": {
+    "unit": "mm",
+    "closed": false,
+    "points": [
+      { "x": 0, "y": 0 },
+      { "x": 3000, "y": 0 },
+      { "x": 3000, "y": 2000 }
+    ]
+  },
+  "level": "level_01",
+  "host_type": "floor",
+  "base_offset_mm": 0
+}
+```
+
+### Rules
+
+- `path` uses the standard OAS polygon structure but may be open (`closed: false`) for linear railings
+- Points may include an optional `z` coordinate for railings following stair geometry
+- `host_type` indicates the structural element the railing is attached to
+
+---
+
+## 12. Circulation (Connections)
 
 This defines graph-like connections between rooms.
 
@@ -566,7 +612,7 @@ Circulation graphs are useful for:
 
 ---
 
-## 12. Metadata
+## 13. Metadata
 
 Optional metadata for provenance:
 
@@ -580,7 +626,7 @@ Optional metadata for provenance:
 
 ---
 
-## 13. Relationship to OAS-Program
+## 14. Relationship to OAS-Program
 
 ### OAS-Program → OAS-Layout
 
@@ -604,7 +650,7 @@ This enables prompt-based design refinement.
 
 ---
 
-## 14. Relationship to OAS-Render
+## 15. Relationship to OAS-Render
 
 OAS-Render uses OAS-Layout geometry (mm integers) to produce:
 
@@ -617,7 +663,7 @@ Layout is the authoritative geometric dataset.
 
 ---
 
-## 15. Summary
+## 16. Summary
 
 OAS-Layout encodes all *finalized* and *explicit* geometry for architectural designs, including:
 
@@ -629,6 +675,7 @@ OAS-Layout encodes all *finalized* and *explicit* geometry for architectural des
 - Roof geometry with slope and overhang
 - Floor slab geometry
 - Furniture placement and dimensions
+- Railing paths along floors, stairs, and ramps
 - Circulation relationships
 - Provenance metadata
 
