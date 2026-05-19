@@ -54,6 +54,9 @@ A modular add-on for OAS that introduces domain-specific entities such as furnit
 
 ## F
 
+### **Floor Slab**
+A physical floor element defined by a boundary polygon and a vertical offset from a Level. Represents the actual floor construction (e.g., concrete slab). Analogous to IFC `IfcSlab(FLOOR)`. Not to be confused with Level, which is an abstract reference plane. Defined in OAS-Core and OAS-Layout.
+
 ### **Footprint**
 A 2D polygon representing the physical outline of an object such as a piece of furniture. Often used in OAS-Furniture.
 

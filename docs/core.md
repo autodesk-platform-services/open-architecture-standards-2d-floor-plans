@@ -14,6 +14,7 @@ OAS-Core specifies the following primary components:
 - **Walls** (straight boundary segments between points, with optional height and profile)
 - **Openings** (doors and windows located along walls)
 - **Roofs** (roof elements with boundary polygon, slope, and overhang)
+- **Floor Slabs** (physical floor elements with boundary polygon)
 - **Annotations** (human or LLM-generated notes and comments)
 
 These entities form the essential structure of an architectural plan, ensuring that both humans and automated tools (LLMs, layout solvers, renderers, and editors) interpret plans in a consistent and predictable manner.
