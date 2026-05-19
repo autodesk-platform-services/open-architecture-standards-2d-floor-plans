@@ -64,7 +64,23 @@ Examples:
 
 An OAS document may include extensions via the `extensions` field.
 
-### Example:
+### Dictionary Format (recommended, OAS ≥ 1.1.0)
+
+Extensions are declared as a **dictionary** keyed by extension name. This allows direct lookup by name and is the recommended format for new documents.
+
+```json
+{
+  "oas": "1.1.0",
+  "extensions": {
+    "oas-machinery": { "version": "1.0.0" },
+    "oas-autodesk": { "version": "1.0.0" }
+  }
+}
+```
+
+### Array Format (legacy, OAS 1.0.0)
+
+The original OAS 1.0.0 format used an array of objects. Parsers should accept both formats for backward compatibility.
 
 ```json
 {
@@ -78,9 +94,9 @@ An OAS document may include extensions via the `extensions` field.
 
 The presence of an extension implies:
 
-- Additional fields may be used  
-- Additional entities may be allowed  
-- Renderers/editors should load the relevant extension handlers  
+- Additional fields may be used on core entities
+- Additional entity arrays may be present at the top level
+- Renderers/editors should load the relevant extension handlers
 
 Documents must still remain valid OAS regardless of extensions.
 
@@ -164,25 +180,10 @@ All geometry still uses mm integer rules.
 
 ---
 
-### 5.3 OAS-3D
+### ~~5.3 OAS-3D~~ (moved to Core)
 
-Adds a 3D layer using extrusions and heights.
-
-Includes:
-- floor heights  
-- ceiling heights  
-- extruded wall geometry  
-- vertical openings  
-- 3D furniture  
-
-Example:
-
-```json
-{
-  "wall_height_mm": 2800,
-  "ceiling_height_mm": 2550
-}
-```
+!!! note "Moved to OAS-Core"
+    3D fields such as `wall_height_mm`, `base_offset_mm`, `height_at_start_mm`, `height_at_end_mm`, and `top_profile_points` are now part of OAS-Core (on Walls). Level elevations (`elevation_mm`) provide the vertical reference system. This extension is no longer needed.
 
 ---
 

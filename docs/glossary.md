@@ -85,6 +85,9 @@ A unique identifier for any entity (room, wall, opening, extension object). Must
 ### **Layout (OAS-Layout)**
 The module representing the resolved geometric state of the design, including all room polygons, walls, openings, and circulation.
 
+### **Level**
+An abstract horizontal reference plane at a specific elevation, defining a building story. Levels are logical concepts (not physical elements) that serve as anchors for all spatial elements. Analogous to IFC `IfcBuildingStorey`. See also: Floor Slab.
+
 ### **LLM-Friendly**
 A design philosophy emphasizing simple JSON structures, predictable keys, and minimal nesting to support interactions with large language models.
 
@@ -147,6 +150,9 @@ A wall marked as load-bearing. Rendered differently in many implementations.
 
 ### **Tag**
 A keyword applied to rooms or entities to categorize or filter them (e.g., “daylit”, “wet_area”).
+
+### **Type Name**
+A tool-independent type classification for any OAS element (`type_name` field). Follows the IFC Type-Occurrence pattern where a type defines a template and occurrences are instances. Examples: “200mm Brick”, “Double Glazed Window”. Tool-specific type systems (e.g., Revit Family/Type) should use extensions.
 
 ---
 
