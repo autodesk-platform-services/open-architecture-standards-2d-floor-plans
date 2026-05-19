@@ -2,6 +2,10 @@
 
 Open Architecture Standards (OAS) is a lightweight, LLM-friendly schema for describing architectural layouts, programs, rooms, walls, and openings using simple JSON in millimeter coordinates. Designed for generative design, editing by prompts, and easy rendering in web tools.
 
+# Important Note:
+
+This is not an industry standard, but rather one approach to interacting with an LLM to generate more accurate 2D floor plans.
+
 ## Documentation
 
 The full specification documentation is built using [MkDocs](https://www.mkdocs.org/) with the [Material theme](https://squidfunk.github.io/mkdocs-material/).
