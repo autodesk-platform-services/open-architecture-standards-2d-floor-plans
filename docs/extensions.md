@@ -279,6 +279,125 @@ Defines industrial equipment and production machinery. IFC does not have a dedic
 
 ---
 
+### 5.7 OAS-Autodesk
+
+Defines fields specific to the Autodesk ecosystem (Revit, APS, ACC, Inventor). This extension serves as a reference for how tool-specific BIM data can be attached to OAS entities without polluting the core schema.
+
+**Extension declaration:**
+
+```json
+{
+  "extensions": {
+    "oas-autodesk": { "version": "1.0.0" }
+  }
+}
+```
+
+#### Top-Level Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `model_urn` | string | Base64-encoded Model Derivative URN from APS |
+
+#### Common Fields (all elements)
+
+These fields may appear on any OAS entity when the oas-autodesk extension is active:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `external_id` | string | Model Derivative objectId for viewer selection |
+| `revit_family` | string | Revit Family name (e.g., "Basic Wall") |
+| `revit_type` | string | Revit Type name (e.g., "200mm Brick") |
+
+#### Level Extensions
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `external_id` | string | Model Derivative objectId |
+
+#### Wall Extensions
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `flip` | boolean | Whether the wall is flipped from its default orientation |
+| `top_is_attached` | boolean | Whether wall top is attached to a roof |
+| `attached_roof_ids` | string[] | IDs of roofs this wall was attached to |
+| `top_constraint_level` | string | Revit Top Constraint level name |
+| `top_constraint_offset_mm` | integer | Revit Top Constraint offset in mm |
+
+#### Room Extensions
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `revit_number` | string | Revit room number |
+| `revit_department` | string | Revit department assignment |
+
+#### Machinery Extensions (geometry_source)
+
+When machinery has 3D geometry from APS/ACC, the `geometry_source` field provides Autodesk-specific import metadata:
+
+```json
+{
+  "geometry_source": {
+    "urn": "dXJuOmFkc2sud2lwcHJvZDpmcy5maWxl...",
+    "external_id": "12345",
+    "item_id": "urn:adsk.wipprod:dm.lineage:...",
+    "file_name": "CNC_Machine.stp",
+    "is_y_up": true,
+    "import_mode": "single",
+    "mesh_quality": 0.5
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `urn` | string | Base64-encoded version URN from ACC |
+| `external_id` | string | Root object externalId from Model Derivative |
+| `item_id` | string | ACC Item ID for updates |
+| `file_name` | string | Original file name |
+| `is_y_up` | boolean | Whether the model uses Y-up convention |
+| `import_mode` | string | `"single"` (one body) or `"assembly"` (individual parts) |
+| `mesh_quality` | number | Tessellation LOD: 0.0 (coarsest) to 1.0 (finest), -1 = BREP |
+
+#### Example
+
+```json
+{
+  "oas": "1.1.0",
+  "model_urn": "dXJuOmFkc2sud2lwcHJvZDpmcy5maWxl...",
+  "extensions": {
+    "oas-autodesk": { "version": "1.0.0" }
+  },
+  "levels": [
+    {
+      "id": "level_00",
+      "name": "Ground Floor",
+      "elevation_mm": 0,
+      "external_id": "abc123"
+    }
+  ],
+  "walls": [
+    {
+      "id": "wall_01",
+      "from": { "x": 0, "y": 0 },
+      "to": { "x": 5000, "y": 0 },
+      "thickness_mm": 200,
+      "wall_height_mm": 2800,
+      "level": "level_00",
+      "external_id": "def456",
+      "revit_family": "Basic Wall",
+      "revit_type": "200mm Brick",
+      "flip": false,
+      "top_is_attached": true,
+      "attached_roof_ids": ["roof_01"]
+    }
+  ]
+}
+```
+
+---
+
 ## 6. Custom Extensions
 
 Projects may define custom extensions:
