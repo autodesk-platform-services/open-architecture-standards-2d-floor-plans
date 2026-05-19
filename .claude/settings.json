@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(/.claude/skills/oas-layout/**)",
+      "Edit(/.claude/skills/oas-render/**)",
+      "Edit(/.claude/skills/oas-extensions/**)",
+      "Edit(/.claude/skills/oas-program/**)",
+      "Bash(cd /Users/poyrazyildirim/git-workspace/open-architecture-standards-svg-viewer && echo \"=== STRUCTURE ===\" && find . -maxdepth 3 -type d -not -path '*/node_modules*' -not -path '*/.git*' -not -path '*/bin*' -not -path '*/obj*' | sort && echo \"\" && echo \"=== KEY FILES ===\" && ls core-service/ web-service/ 2>&1)",
+      "Read(//Users/poyrazyildirim/git-workspace/open-architecture-standards-svg-viewer/**)",
+      "Bash(rsync -a --exclude=.git --exclude=node_modules --exclude=.env --exclude=bin --exclude=obj /Users/poyrazyildirim/git-workspace/open-architecture-standards-svg-viewer/ simple-viewer/)"
+    ]
+  }
+}

@@ -1,0 +1,438 @@
+{
+  "oas": "1.0.0",
+  "plan_id": "apartment_50m2",
+  "title": "50m2 Apartment Plan",
+  "units": {
+    "length": "mm",
+    "angle": "deg"
+  },
+  "rooms": [
+    {
+      "id": "entry",
+      "name": "Entry Hall",
+      "usage": "circulation",
+      "boundary_polygon": {
+        "unit": "mm",
+        "closed": true,
+        "points": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 2000,
+            "y": 0
+          },
+          {
+            "x": 2000,
+            "y": 2000
+          },
+          {
+            "x": 0,
+            "y": 2000
+          }
+        ]
+      },
+      "area_m2": 4.0
+    },
+    {
+      "id": "living_kitchen",
+      "name": "Living Room / Kitchen",
+      "usage": "living_kitchen",
+      "boundary_polygon": {
+        "unit": "mm",
+        "closed": true,
+        "points": [
+          {
+            "x": 2000,
+            "y": 0
+          },
+          {
+            "x": 7000,
+            "y": 0
+          },
+          {
+            "x": 7000,
+            "y": 5000
+          },
+          {
+            "x": 0,
+            "y": 5000
+          },
+          {
+            "x": 0,
+            "y": 2000
+          },
+          {
+            "x": 2000,
+            "y": 2000
+          }
+        ]
+      },
+      "area_m2": 31.0
+    },
+    {
+      "id": "bedroom",
+      "name": "Bedroom",
+      "usage": "bedroom",
+      "boundary_polygon": {
+        "unit": "mm",
+        "closed": true,
+        "points": [
+          {
+            "x": 7000,
+            "y": 0
+          },
+          {
+            "x": 10000,
+            "y": 0
+          },
+          {
+            "x": 10000,
+            "y": 3500
+          },
+          {
+            "x": 7000,
+            "y": 3500
+          }
+        ]
+      },
+      "area_m2": 10.5
+    },
+    {
+      "id": "bathroom",
+      "name": "Bathroom",
+      "usage": "bathroom",
+      "boundary_polygon": {
+        "unit": "mm",
+        "closed": true,
+        "points": [
+          {
+            "x": 7000,
+            "y": 3500
+          },
+          {
+            "x": 10000,
+            "y": 3500
+          },
+          {
+            "x": 10000,
+            "y": 5000
+          },
+          {
+            "x": 7000,
+            "y": 5000
+          }
+        ]
+      },
+      "area_m2": 4.5
+    }
+  ],
+  "walls": [
+    {
+      "id": "wall_entry_left",
+      "from": {
+        "x": 0,
+        "y": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 2000
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "entry"
+      ]
+    },
+    {
+      "id": "wall_left_bottom",
+      "from": {
+        "x": 0,
+        "y": 2000
+      },
+      "to": {
+        "x": 0,
+        "y": 5000
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "living_kitchen"
+      ]
+    },
+    {
+      "id": "wall_top_entry",
+      "from": {
+        "x": 0,
+        "y": 0
+      },
+      "to": {
+        "x": 2000,
+        "y": 0
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "entry"
+      ]
+    },
+    {
+      "id": "wall_top_living",
+      "from": {
+        "x": 2000,
+        "y": 0
+      },
+      "to": {
+        "x": 7000,
+        "y": 0
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "living_kitchen"
+      ]
+    },
+    {
+      "id": "wall_top_bedroom",
+      "from": {
+        "x": 7000,
+        "y": 0
+      },
+      "to": {
+        "x": 10000,
+        "y": 0
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "bedroom"
+      ]
+    },
+    {
+      "id": "wall_right_bedroom",
+      "from": {
+        "x": 10000,
+        "y": 0
+      },
+      "to": {
+        "x": 10000,
+        "y": 3500
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "bedroom"
+      ]
+    },
+    {
+      "id": "wall_right_bathroom",
+      "from": {
+        "x": 10000,
+        "y": 3500
+      },
+      "to": {
+        "x": 10000,
+        "y": 5000
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "bathroom"
+      ]
+    },
+    {
+      "id": "wall_bottom",
+      "from": {
+        "x": 0,
+        "y": 5000
+      },
+      "to": {
+        "x": 10000,
+        "y": 5000
+      },
+      "unit": "mm",
+      "thickness_mm": 200,
+      "adjacent_rooms": [
+        "exterior",
+        "living_kitchen",
+        "bathroom"
+      ]
+    },
+    {
+      "id": "wall_entry_bottom",
+      "from": {
+        "x": 0,
+        "y": 2000
+      },
+      "to": {
+        "x": 2000,
+        "y": 2000
+      },
+      "unit": "mm",
+      "thickness_mm": 100,
+      "adjacent_rooms": [
+        "entry",
+        "living_kitchen"
+      ]
+    },
+    {
+      "id": "wall_entry_living",
+      "from": {
+        "x": 2000,
+        "y": 0
+      },
+      "to": {
+        "x": 2000,
+        "y": 2000
+      },
+      "unit": "mm",
+      "thickness_mm": 100,
+      "adjacent_rooms": [
+        "entry",
+        "living_kitchen"
+      ]
+    },
+    {
+      "id": "wall_living_bedroom",
+      "from": {
+        "x": 7000,
+        "y": 0
+      },
+      "to": {
+        "x": 7000,
+        "y": 3500
+      },
+      "unit": "mm",
+      "thickness_mm": 100,
+      "adjacent_rooms": [
+        "living_kitchen",
+        "bedroom"
+      ]
+    },
+    {
+      "id": "wall_living_bathroom",
+      "from": {
+        "x": 7000,
+        "y": 3500
+      },
+      "to": {
+        "x": 7000,
+        "y": 5000
+      },
+      "unit": "mm",
+      "thickness_mm": 100,
+      "adjacent_rooms": [
+        "living_kitchen",
+        "bathroom"
+      ]
+    },
+    {
+      "id": "wall_bedroom_bathroom",
+      "from": {
+        "x": 7000,
+        "y": 3500
+      },
+      "to": {
+        "x": 10000,
+        "y": 3500
+      },
+      "unit": "mm",
+      "thickness_mm": 100,
+      "adjacent_rooms": [
+        "bedroom",
+        "bathroom"
+      ]
+    }
+  ],
+  "openings": [
+    {
+      "id": "door_main",
+      "opening_type": "door",
+      "is_fixed": false,
+      "operation": "swing",
+      "swing_direction": "inward",
+      "hinge_side": "right",
+      "in_wall": "wall_entry_left",
+      "connects_rooms": [
+        "exterior",
+        "entry"
+      ],
+      "position_along_wall_mm": 1000,
+      "width_mm": 900,
+      "height_mm": 2100
+    },
+    {
+      "id": "door_entry_living",
+      "opening_type": "door",
+      "is_fixed": false,
+      "operation": "swing",
+      "swing_direction": "inward",
+      "hinge_side": "left",
+      "in_wall": "wall_entry_living",
+      "connects_rooms": [
+        "entry",
+        "living_kitchen"
+      ],
+      "position_along_wall_mm": 1000,
+      "width_mm": 800,
+      "height_mm": 2100
+    },
+    {
+      "id": "door_living_bedroom",
+      "opening_type": "door",
+      "is_fixed": false,
+      "operation": "swing",
+      "swing_direction": "inward",
+      "hinge_side": "right",
+      "in_wall": "wall_living_bedroom",
+      "connects_rooms": [
+        "living_kitchen",
+        "bedroom"
+      ],
+      "position_along_wall_mm": 1000,
+      "width_mm": 800,
+      "height_mm": 2100
+    },
+    {
+      "id": "door_living_bathroom",
+      "opening_type": "door",
+      "is_fixed": false,
+      "operation": "swing",
+      "swing_direction": "outward",
+      "hinge_side": "right",
+      "in_wall": "wall_living_bathroom",
+      "connects_rooms": [
+        "living_kitchen",
+        "bathroom"
+      ],
+      "position_along_wall_mm": 650,
+      "width_mm": 700,
+      "height_mm": 2100
+    }
+  ],
+  "connections": [
+    {
+      "from": "entry",
+      "to": "living_kitchen",
+      "type": "direct"
+    },
+    {
+      "from": "living_kitchen",
+      "to": "bedroom",
+      "type": "direct"
+    },
+    {
+      "from": "living_kitchen",
+      "to": "bathroom",
+      "type": "direct"
+    }
+  ]
+}
