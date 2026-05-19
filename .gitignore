@@ -36,3 +36,9 @@ wheels/
 # OS
 .DS_Store
 Thumbs.db
+
+# Claude Code — local per-user permissions and state (never commit)
+# Both files are local-only; the harness writes session permissions to settings.json,
+# so it must stay untracked to avoid leaking absolute paths / usernames.
+.claude/settings.json
+.claude/settings.local.json
