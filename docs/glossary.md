@@ -33,6 +33,12 @@ A polygon whose last point connects back to the first. Must be explicitly marked
 ### **Core (OAS-Core)**
 The foundational module of OAS defining rooms, walls, openings, units, and metadata.
 
+### **Curtain Wall**
+A glazed wall system with a grid of mullions and infill panels. In IFC, `IfcCurtainWall` is a sibling of `IfcWall` (both inherit from `IfcBuiltElement`), not a subtype. OAS defines curtain walls as a separate entity in their own `curtain_walls` array. Defined in OAS-Core and OAS-Layout.
+
+### **Curtain Panel**
+An infill element within a curtain wall grid. Analogous to IFC `IfcPlate` aggregated in `IfcCurtainWall`. Panels are **not** openings (`IfcPlate` ≠ `IfcOpeningElement`). Real doors or windows in curtain walls use standard Opening entities with `in_curtain_wall`.
+
 ---
 
 ## D
